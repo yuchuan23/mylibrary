@@ -1,0 +1,4 @@
+rootProject.name = 'mylibrary'
+include 'dateutil'
+include 'jacksonutil'
+include 'configutil'

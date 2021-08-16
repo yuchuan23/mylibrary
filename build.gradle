@@ -1,0 +1,44 @@
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'groovy'
+    apply plugin: 'maven-publish'
+
+	// for publish to maven local, ref: https://docs.gradle.org/current/userguide/publishing_maven.html
+	publishing {
+		publications {
+			maven(MavenPublication) {
+				from components.java
+			}
+		}
+	}
+
+	test {
+		failFast = true
+		testLogging {
+			showStandardStreams = true
+			exceptionFormat = "full"
+			showExceptions = true
+		}
+		beforeTest { descriptor ->
+			logger.lifecycle("\n\n============= Running test :" + descriptor + " ===================")
+		}
+		afterTest { descriptor ->
+			logger.lifecycle("\n\n============= End test :" + descriptor + " ===================")
+		}
+	}
+
+	javadoc {
+		options {
+			// link to Javadocs for Java 8
+			links 'https://docs.oracle.com/javase/8/docs/api/'
+		}
+	}
+}
